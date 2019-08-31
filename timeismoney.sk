@@ -60,6 +60,7 @@ on join:
 			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
 	make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
 command /tim [<text>] [<number>] [<text>]:
+	aliases: timeismoney
 	trigger:
 		if arg-1 is not set:	
 			if {timeismoney.argent.%player%} is not set:
