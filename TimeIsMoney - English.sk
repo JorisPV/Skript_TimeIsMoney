@@ -1,4 +1,12 @@
-﻿function calculatrice(first: number, format: text, second: number) :: number:
+﻿#Skript created by Acenox
+
+#You have a problem? Do not hesitate to post it on github.
+
+#Github: https://github.com/Acenox/TimeIsMoney
+
+#Build 1 - 31/08/2019
+
+function calculatrice(first: number, format: text, second: number) :: number:
 	{_format} is "+":
 		set {_result} to {_first} + {_second}
 	{_format} is "-":
@@ -65,28 +73,28 @@ command /tim [<text>] [<number>] [<text>]:
 		if arg-1 is not set:	
 			if {timeismoney.argent.%player%} is not set:
 				set {timeismoney.argent.%player%} to 1
-			open virtual chest inventory with size 1 named "&6TimeisMoney &8» &6Améliorer" to player
+			open virtual chest inventory with size 1 named "&6TimeisMoney &8» &6Improve" to player
 			wait 2 ticks
-			format gui slot 3 of player with gold block named "&6✪ &eRécupérer l'argent &6✪" with lore "|| &7Récupérer de l'argent|| &7grâce à votre temps de jeu|||| &d▶ &aRécupérer &c%{timeismoney.argent.%player%}%&c$|| &d▶ &aBooster actuel &cx%{timeismoney.booster.%player%}% ||||&8  » &aCliquez-ici pour &cRécupérer." to close then run player command "tim recup"
-			format gui slot 5 of player with gold nugget named "&d▸ &aAméliorer le Booster de &cx0.1" with lore "|| &7Vous pouvez améliorer votre booster||&7 Contre de la money pour gagner plus d'argent|||| &d▶ &aPrix du niveau suivant: &c%{timeismoney.prix.booster.%player%}%&a$|| &d▶ &aBooster actuel &cx%{timeismoney.booster.%player%}% ||||&8  » &aCliquez-ici pour &cAcheter." to close then run player command "tim jioper %{timeismoney.booster.%player%}%"
+			format gui slot 3 of player with gold block named "&6✪ &eRecover money &6✪" with lore "|| &7Recover money|| &7thanks to your playing time|||| &d▶ &aRecover &c%{timeismoney.argent.%player%}%&c$|| &d▶ &aCurrent booster &cx%{timeismoney.booster.%player%}% ||||&8  » &aClick here to &crecover" to close then run player command "tim recup"
+			format gui slot 5 of player with gold nugget named "&d▸ &aImprove the Booster &cx0.1" with lore "|| &7You can improve your booster||&7 Against money to make more money|||| &d▶ &aPrice of next level: &c%{timeismoney.prix.booster.%player%}%&a$|| &d▶ &aCurrent booster &cx%{timeismoney.booster.%player%}% ||||&8  » &aClick here to &cBuy." to close then run player command "tim jioper %{timeismoney.booster.%player%}%"
 		if arg-1 is "jioper":
 			if {timeismoney.booster.%player%} >= 100:
-				message "&bTimeIsMoney &8» &eVous ne pouvez pas payer plus de booster, vous êtes au niveau maximum."
+				message "&bTimeIsMoney &8» &eYou can not pay more booster, you are at the maximum level."
 			else:
 				set {timeismoney.prix.booster.%player%} to calculatrice(arg 2, "*", 100)
 				if {timeismoney.prix.booster.%player%} is less than or equal to player's money:
 					remove {timeismoney.prix.booster.%player%} from player's account
 					set {timeismoney.booster.%player%} to calculatrice(arg 2, "+", 0.1)
 					send "&bTimeIsMoney &8» &c-%{timeismoney.prix.booster.%player%}%&a$"
-					send "&bTimeIsMoney &8» &fVotre booster passe à &cx%{timeismoney.booster.%player%}% &f!"
+					send "&bTimeIsMoney &8» &fYour booster goes to &cx%{timeismoney.booster.%player%}% &f!"
 					make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
 				else:
-					send "&bTimeIsMoney &8» &fVous devez avoir &c%{timeismoney.prix.booster.%player%}%&a$"
+					send "&bTimeIsMoney &8» &fYou must have &c%{timeismoney.prix.booster.%player%}%&a$"
 		if arg-1 is "recup":
 			if {timeismoney.argent.%player%} < 2:
-				message "&bTimeIsMoney &8» &cErreur: Vous n'avez pas d'argent à récupérer"
+				message "&bTimeIsMoney &8» &cError: You do not have money to recover"
 			else:
-				message "&bTimeIsMoney &8» &fMerci de jouer sur notre serveur, vous remportez &a%{timeismoney.argent.%player%}%$ &7( &aBooster: %{timeismoney.booster.%player%}% &7)"
+				message "&bTimeIsMoney &8» &fThank you for playing on our server, you win &a%{timeismoney.argent.%player%}%$ &7( &aBooster: %{timeismoney.booster.%player%}% &7)"
 				make console execute command "eco give %player% %{timeismoney.argent.%player%}%"
 				clear {timeismoney.argent.%player%}
 		if arg-1 is "calcule":
