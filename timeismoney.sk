@@ -17,89 +17,80 @@ function givemoney(first: number, format: text, second: number) :: number:
 		set {_result} to {_first} * {_second}
 	{_format} is "/":
 		set {_result} to {_first} / {_second}
-	return {_result}
-	
-on load:
-	set {multi} to "5"
-	set {donne} to "1"
-
-	
-command /calcul <number> <text> <number>:
-	trigger:
-		set {_calcul} to calculatrice(arg 1, "%arg 2%", arg 3)
-		send "%{_calcul}%"
+	return {_result}	
 
 every 300 seconds:
-	if {give} is 0:
-		loop all players:
-			if {neoshield.time.%loop-player%} is not set:
-				set {neoshield.time.%loop-player%} to 1
-			set {timetempo.%loop-player%} to givemoney(1,"*",{neoshield.newbooster.%loop-player%})
-			set {timefdp.%loop-player%} to givemoney({timetempo.%loop-player%},"*",5)
-			add {timefdp.%loop-player%} to {neoshield.time.%loop-player%}
+	loop all players:
+		if {timeismoney.argent.%loop-player%} is not set:
+			set {timeismoney.argent.%loop-player%} to 1
+		set {timetempo.%loop-player%} to givemoney(1,"*",{timeismoney.booster.%loop-player%})
+		set {timeismoney.temps.%loop-player%} to givemoney({timetempo.%loop-player%},"*",5)
+		add {timeismoney.temps.%loop-player%} to {timeismoney.argent.%loop-player%}
+		clear {timetempo.%loop-player%}
+		clear {timeismoney.temps.%loop-player%}
 on join:	
 	wait 2 seconds
-	if {neoshield.time.%player%} is not set:
-		set {neoshield.time.%player%} to 1
-	if {neoshield.time.%player%} is 0:
-		set {neoshield.time.%player%} to 1
-	if player does not have permission "mine.g":
-		if {neoshield.newbooster.%player%} < 1:
-			set {neoshield.newbooster.%player%} to 1
-			make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
-	else if player has permission "mine.custom":
-		if {neoshield.newbooster.%player%} < 6:
-			set {neoshield.newbooster.%player%} to 6
-			make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
-	else if player has permission "mine.l":
-		if {neoshield.newbooster.%player%} < 5:
-			set {neoshield.newbooster.%player%} to 5
-			make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
-	else if player has permission "mine.h":
-		if {neoshield.newbooster.%player%} < 4:
-			set {neoshield.newbooster.%player%} to 4
-			make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
-	else if player has permission "mine.n":
-		if {neoshield.newbooster.%player%} < 3:
-			set {neoshield.newbooster.%player%} to 3	
-			make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
-	else if player has permission "mine.g":
-		if {neoshield.newbooster.%player%} < 2:
-			set {neoshield.newbooster.%player%} to 2	
-			make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
-	make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
+	if {timeismoney.argent.%player%} is not set:
+		set {timeismoney.argent.%player%} to 1
+	if {timeismoney.argent.%player%} is 0:
+		set {timeismoney.argent.%player%} to 1
+	if player does not have permission "timeismoney.1":
+		if {timeismoney.booster.%player%} < 1:
+			set {timeismoney.booster.%player%} to 1
+			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
+	else if player has permission "timeismoney.5":
+		if {timeismoney.booster.%player%} < 6:
+			set {timeismoney.booster.%player%} to 6
+			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
+	else if player has permission "timeismoney.4":
+		if {timeismoney.booster.%player%} < 5:
+			set {timeismoney.booster.%player%} to 5
+			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
+	else if player has permission "timeismoney.3":
+		if {timeismoney.booster.%player%} < 4:
+			set {timeismoney.booster.%player%} to 4
+			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
+	else if player has permission "timeismoney.2":
+		if {timeismoney.booster.%player%} < 3:
+			set {timeismoney.booster.%player%} to 3	
+			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
+	else if player has permission "timeismoney.1":
+		if {timeismoney.booster.%player%} < 2:
+			set {timeismoney.booster.%player%} to 2	
+			make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
+	make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
 command /tim [<text>] [<number>] [<text>]:
 	trigger:
 		if arg-1 is not set:	
-			if {neoshield.time.%player%} is not set:
-				set {neoshield.time.%player%} to 1
+			if {timeismoney.argent.%player%} is not set:
+				set {timeismoney.argent.%player%} to 1
 			open virtual chest inventory with size 1 named "&6TimeisMoney &8» &6Améliorer" to player
 			wait 2 ticks
-			format gui slot 3 of player with gold block named "&6✪ &eRécupérer l'argent &6✪" with lore "|| &7Récupérer de l'argent|| &7grâce à votre temps de jeu|||| &d▶ &aRécupérer &c%{neoshield.time.%player%}%&c$|| &d▶ &aBooster actuel &cx%{neoshield.newbooster.%player%}% ||||&8  » &aCliquez-ici pour &cRécupérer." to close then run player command "tim recup"
-			format gui slot 5 of player with gold nugget named "&d▸ &aAméliorer le Booster de &cx0.1" with lore "|| &7Vous pouvez améliorer votre booster||&7 Contre de la money pour gagner plus d'argent|||| &d▶ &aPrix du niveau suivant: &c%{neoshield.prix.booster.%player%}%&a$|| &d▶ &aBooster actuel &cx%{neoshield.newbooster.%player%}% ||||&8  » &aCliquez-ici pour &cAcheter." to close then run player command "tim jioper %{neoshield.newbooster.%player%}%"
+			format gui slot 3 of player with gold block named "&6✪ &eRécupérer l'argent &6✪" with lore "|| &7Récupérer de l'argent|| &7grâce à votre temps de jeu|||| &d▶ &aRécupérer &c%{timeismoney.argent.%player%}%&c$|| &d▶ &aBooster actuel &cx%{timeismoney.booster.%player%}% ||||&8  » &aCliquez-ici pour &cRécupérer." to close then run player command "tim recup"
+			format gui slot 5 of player with gold nugget named "&d▸ &aAméliorer le Booster de &cx0.1" with lore "|| &7Vous pouvez améliorer votre booster||&7 Contre de la money pour gagner plus d'argent|||| &d▶ &aPrix du niveau suivant: &c%{timeismoney.prix.booster.%player%}%&a$|| &d▶ &aBooster actuel &cx%{timeismoney.booster.%player%}% ||||&8  » &aCliquez-ici pour &cAcheter." to close then run player command "tim jioper %{timeismoney.booster.%player%}%"
 		if arg-1 is "jioper":
-			if {neoshield.newbooster.%player%} >= 100:
-				message "&6&lNeolia&c&lMC &8» &eVous ne pouvez pas payer plus de booster, vous êtes au niveau maximum."
+			if {timeismoney.booster.%player%} >= 100:
+				message "&bTimeIsMoney &8» &eVous ne pouvez pas payer plus de booster, vous êtes au niveau maximum."
 			else:
-				set {neoshield.prix.booster.%player%} to calculatrice(arg 2, "*", 100)
-				if {neoshield.prix.booster.%player%} is less than or equal to player's money:
-					remove {neoshield.prix.booster.%player%} from player's account
-					set {neoshield.newbooster.%player%} to calculatrice(arg 2, "+", 0.1)
-					send "&6&lNeolia&c&lMC &8» &c-%{neoshield.prix.booster.%player%}%&a$"
-					send "&6&lNeolia&c&lMC &8» &eVotre booster passe à &cx%{neoshield.newbooster.%player%}% &e!"
-					make console execute command "/tim calcule %{neoshield.newbooster.%player%}% %player%"
+				set {timeismoney.prix.booster.%player%} to calculatrice(arg 2, "*", 100)
+				if {timeismoney.prix.booster.%player%} is less than or equal to player's money:
+					remove {timeismoney.prix.booster.%player%} from player's account
+					set {timeismoney.booster.%player%} to calculatrice(arg 2, "+", 0.1)
+					send "&bTimeIsMoney &8» &c-%{timeismoney.prix.booster.%player%}%&a$"
+					send "&bTimeIsMoney &8» &fVotre booster passe à &cx%{timeismoney.booster.%player%}% &f!"
+					make console execute command "/tim calcule %{timeismoney.booster.%player%}% %player%"
 				else:
-					send "&6&lNeolia&c&lMC &8» &eVous devez avoir %{neoshield.prix.booster.%player%}%&a$"
+					send "&bTimeIsMoney &8» &fVous devez avoir &c%{timeismoney.prix.booster.%player%}%&a$"
 		if arg-1 is "recup":
-			if {neoshield.time.%player%} < 2:
-				message "&7&6&lNeolia&c&lMC &8» &cErreur: Vous n'avez pas d'argent à récupérer"
+			if {timeismoney.argent.%player%} < 2:
+				message "&bTimeIsMoney &8» &cErreur: Vous n'avez pas d'argent à récupérer"
 			else:
-				message "&7&6&lNeolia&c&lMC &8» &6Merci de jouer sur notre serveur, vous remportez &a%{neoshield.time.%player%}%$ &7( &aBooster: %{neoshield.newbooster.%player%}% &7)"
-				make console execute command "eco give %player% %{neoshield.time.%player%}%"
-				clear {neoshield.time.%player%}
+				message "&bTimeIsMoney &8» &fMerci de jouer sur notre serveur, vous remportez &a%{timeismoney.argent.%player%}%$ &7( &aBooster: %{timeismoney.booster.%player%}% &7)"
+				make console execute command "eco give %player% %{timeismoney.argent.%player%}%"
+				clear {timeismoney.argent.%player%}
 		if arg-1 is "calcule":
-			set {neoshield.prix.booster.%arg-3%} to calculatrice(arg 2, "*", 100)
+			set {timeismoney.prix.booster.%arg-3%} to calculatrice(arg 2, "*", 100)
 			
 on join:
-	if {neoshield.newbooster.%player%} is not set:
-		set {neoshield.newbooster.%player%} to 1
+	if {timeismoney.booster.%player%} is not set:
+		set {timeismoney.booster.%player%} to 1
