@@ -21,7 +21,7 @@ Le Skript de TimeIsmoney permet de récompenser vos joueurs actifs en gagnant qu
 
 # Permissions
 
-- timeismoney.1 : Permet de donner un booster de 3.0 lors de sa connexion
+- timeismoney.1 : Permet de donner un booster de 3.0 lors de sa connexion
 
 # Prochainement
 
